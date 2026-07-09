@@ -57,6 +57,10 @@ extern void MNNPackedMatMulFP32_RVV(float* C, const float* A, const float* B, co
 extern void MNNPackedMatMulRemainFP32_RVV(float* C, const float* A, const float* B, size_t eSize,
                                           const size_t* parameter, const float* postParameters, const float* bias,
                                           const float* k, const float* b);
+extern void MNNConvRunForLineDepthwise_RVV(float* dst, const float* src, const float* weight, size_t width,
+                                           size_t src_w_setup, size_t fw, size_t fh, size_t dilateX_step,
+                                           size_t dilateY_step, size_t height, size_t srcHStep, size_t dstHStep,
+                                           const float* bias, const float* parameters);
 extern void MNNPackForMatMul_B_RVV(float* destC, const float* sourceC, size_t h, size_t kernelsize, size_t ic,
                                    bool transpose);
 extern void MNNQuantScaleFP32_RVV(float* absmax, float* quant_scale, float* dequant_scale, size_t thread, size_t batch);
@@ -4913,6 +4917,7 @@ void MNNCoreFunctionInit() {
         gCoreFunction->MNNPackedMatMulRemain = MNNPackedMatMulRemainFP32_RVV;
         gCoreFunction->MNNPackForMatMul_B = MNNPackForMatMul_B_RVV;
         gCoreFunction->MNNGetMatMulPackMode = MNNGetMatMulPackMode_RVV;
+        gCoreFunction->MNNConvRunForLineDepthwise = MNNConvRunForLineDepthwise_RVV;
 #ifdef MNN_LOW_MEMORY
         gCoreFunction->MNNAbsMax = MNNAbsMaxFP32_RVV;
         gCoreFunction->MNNDynamicQuant = MNNDynamicQuantFP32_RVV;
